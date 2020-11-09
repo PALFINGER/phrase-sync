@@ -1,0 +1,10 @@
+{
+    "projects": [
+        {
+            "name": "name",
+            "project_id": "id",
+            "default_locale": "en",
+            "locale_path": "path to i18n dir"
+        }
+    ]
+}

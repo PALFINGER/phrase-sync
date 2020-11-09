@@ -1,0 +1,36 @@
+{
+  "name": "phrase-sync",
+  "version": "1.0.0",
+  "description": "Keeps your Phrase projects in sync with the locales in your repository.",
+  "engines": {
+    "node": ">= 12.0.0",
+    "yarn": ">= 1.0.0"
+  },
+  "scripts": {
+    "build": "yarn run tsc src/phrase_integration.ts",
+    "start": "node src/phrase_integration.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PALFINGER/phrase-sync.git"
+  },
+  "keywords": [
+    "phrase",
+    "phraseapp",
+    "build-task"
+  ],
+  "author": "Palfinger AG",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PALFINGER/phrase-sync/issues"
+  },
+  "homepage": "https://github.com/PALFINGER/phrase-sync#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.6",
+    "@types/request": "^2.48.5",
+    "azure-devops-node-api": "^10.1.1",
+    "request": "^2.88.2",
+    "simple-git": "^2.21.0",
+    "typescript": "^4.0.5"
+  }
+}
