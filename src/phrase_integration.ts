@@ -25,8 +25,8 @@ import {
   IdentityRefWithVote,
 } from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as fs from 'fs';
-import { getArgument } from './utils';
 import { PhraseClient, PhraseLocale } from './phrase-client';
+import { getArgument } from './utils';
 import simpleGit = require('simple-git/promise');
 
 const token = process.env.SYSTEM_ACCESSTOKEN || getArgument('--azureToken');
@@ -154,7 +154,11 @@ async function uploadDefaultLocaleToPhrase(
   console.log('Initiated upload. UploadId: ' + uploadId);
 
   if (removeUnmentionedKeys) {
-    phraseAppClient.removeUnmentionedKeys(project.project_id, uploadId);
+    try {
+      await phraseAppClient.removeUnmentionedKeys(project.project_id, uploadId);
+    } catch {
+      console.log('Could not remove unmentioned keys.');
+    }
   }
 }
 
@@ -164,9 +168,8 @@ async function downloadLocales(
   project: PhraseProject,
 ) {
   for (const locale of projectLocales) {
-    const fileContent = <any>await phraseAppClient.downloadLocale(
-      locale.id,
-      project.project_id,
+    const fileContent = <any>(
+      await phraseAppClient.downloadLocale(locale.id, project.project_id)
     );
     fs.writeFileSync(
       project.locale_path + '/' + locale.name + '.json',
@@ -183,7 +186,7 @@ async function runTasks() {
   }
   const phraseClient = new PhraseClient(phraseappToken, phraseappBaseUri);
   console.log('Found ' + phraseProjects.projects.length + ' projects');
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < phraseProjects.projects.length; i++) {
     const project = phraseProjects.projects[i];
     const localeList = await phraseClient.fetchLocales(project.project_id);
     const defaultLocale = localeList.find(
